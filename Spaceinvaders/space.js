@@ -20,6 +20,7 @@ let ship = {
     height : shipHeight,
 }
 let shipImg;
+let shipVelocityX = tileSize;
 
 window.onload = function(){
     board = document.getElementById("board");
@@ -36,6 +37,12 @@ window.onload = function(){
     shipImg.onload= function(){
         context.drawImage(shipImg,ship.x, ship.y,ship.width,ship.height);
     }
+    requestAnimationFrame(update);
 
+
+}
+function update(){
+    requestAnimationFrame(update);
+    context.drawImage(shipImg,ship.x, ship.y,ship.width,ship.height);
 
 }
