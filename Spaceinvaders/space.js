@@ -101,7 +101,10 @@ function update() {
             context.drawImage(alienImg, alien.x, alien.y, alien.width, alien.height);
 
             if (alien.y >= ship.y) {
+                let gameOverSound = new Audio('game-over-arcade-6435.mp3');
+                gameOverSound.play();
                 gameOver = true;
+                showGameOver();
             }
         }
     }
@@ -119,6 +122,8 @@ function update() {
             if (!bullet.used && alien.alive && detectCollision(bullet, alien)) {
                 bullet.used = true;
                 alien.alive = false;
+                let explosionSound = new Audio('explosion-6055.mp3');
+                explosionSound.play();
                 alienCount--;
                 score += 100;
             }
@@ -198,6 +203,8 @@ function shoot(e) {
             used : false
         }
         bulletArray.push(bullet);
+        let laserSound = new Audio("blaster-2-81267.mp3");
+        laserSound.play();
     }
 }
 
@@ -206,4 +213,17 @@ function detectCollision(a, b) {
            a.x + a.width > b.x &&   //a's top right corner passes b's top left corner
            a.y < b.y + b.height &&  //a's top left corner doesn't reach b's bottom left corner
            a.y + a.height > b.y;    //a's bottom left corner passes b's top left corner
+}
+
+function showGameOver(){
+    let gameOverScreen = document.querySelector('.gameOver');
+    let tryAgainBtn = document.querySelector('.tryAgain');
+    gameOverScreen.style.display = 'flex';
+
+    tryAgainBtn.addEventListener('click', e =>{
+        if(e.target.tagName == 'H3'){
+            location.reload();
+        }
+    })
+    
 }
