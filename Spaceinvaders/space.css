@@ -5,3 +5,36 @@ body{
 #board{
     background-color:black;
 }
+
+.gameOver{
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    top: 45%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    background-color: white;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.gameOver h2, .gameOver h3{
+    height: fit-content;
+    margin: auto;
+    width: fit-content;
+}
+
+.gameOver h2{
+    font-size: 5em;
+    color: red;
+}
+
+.gameOver h3{
+    font-size: 3em;
+    color: black;
+    cursor: pointer;
+}
+.logo {
+    width: 150px; /* Set the width of the image */
+    height: auto; /* Maintain aspect ratio by auto-adjusting height */
+}
