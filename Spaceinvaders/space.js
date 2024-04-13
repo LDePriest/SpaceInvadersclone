@@ -31,6 +31,7 @@ let alienHeight = tileSize;
 let alienX = tileSize;
 let alienY = tileSize;
 let alienImg;
+let alienHealth;
 
 let alienRows = 2;
 let alienColumns = 3;
@@ -63,7 +64,7 @@ window.onload = function() {
 
     alienImg = new Image();
     alienImg.src = "./ogAlien.png";
-    createAliens();
+    createAliens(1);
 
     requestAnimationFrame(update);
     document.addEventListener("keydown", moveShip);
@@ -121,7 +122,10 @@ function update() {
             let alien = alienArray[j];
             if (!bullet.used && alien.alive && detectCollision(bullet, alien)) {
                 bullet.used = true;
-                alien.alive = false;
+                alien.health = alien.health - 1;
+                if(alien.health <= 0){
+                    alien.alive = false;
+                }
                 let explosionSound = new Audio('explosion-6055.mp3');
                 explosionSound.play();
                 alienCount--;
@@ -149,7 +153,7 @@ function update() {
         }
         alienArray = [];
         bulletArray = [];
-        createAliens();
+        createAliens(1);
     }
 
     //score
@@ -171,7 +175,8 @@ function moveShip(e) {
     }
 }
 
-function createAliens() {
+function createAliens(healthCount) {
+    healthCount = parseInt(healthCount);
     for (let c = 0; c < alienColumns; c++) {
         for (let r = 0; r < alienRows; r++) {
             let alien = {
@@ -180,7 +185,8 @@ function createAliens() {
                 y : alienY + r*alienHeight,
                 width : alienWidth,
                 height : alienHeight,
-                alive : true
+                alive : true,
+                health: healthCount
             }
             alienArray.push(alien);
         }
