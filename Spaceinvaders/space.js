@@ -224,6 +224,14 @@ function detectCollision(a, b) {
            a.y + a.height > b.y;    //a's bottom left corner passes b's top left corner
 }
 
+const replaceAt = function(str, index, replacement) {
+    return str.substring(0, index) + replacement + str.substring(index + replacement.length);
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
 function showGameOver(){
     let gameOverScreen = document.querySelector('.gameOver');
     let tryAgainBtn = document.querySelector('.tryAgain');
@@ -234,6 +242,22 @@ function showGameOver(){
             location.reload();
         }
     })
-    
+
+    tryAgainBtn.addEventListener('mouseover', async e =>{
+        e.target.textContent.toLowerCase();
+        let tryAgainStr = e.target.textContent;
+
+        for(let i = 0; i < tryAgainStr.length; i++){
+            let letter = tryAgainStr[i];
+            letter = letter.toUpperCase();
+            tryAgainStr = replaceAt(tryAgainStr, i, letter);
+            tryAgainBtn.textContent = tryAgainStr;
+            await sleep(200);
+        }
+    });
+
+    tryAgainBtn.addEventListener('mouseout', e =>{
+        e.target.textContent = e.target.textContent.toLowerCase();
+    });
 }
 
