@@ -121,11 +121,14 @@ function update() {
         for (let j = 0; j < alienArray.length; j++) {
             let alien = alienArray[j];
             if (!bullet.used && alien.alive && detectCollision(bullet, alien)) {
+
                 bullet.used = true;
                 alien.health = alien.health - 1;
+
                 if(alien.health <= 0){
                     alien.alive = false;
                 }
+
                 let explosionSound = new Audio('explosion-6055.mp3');
                 explosionSound.play();
                 alienCount--;
@@ -233,3 +236,4 @@ function showGameOver(){
     })
     
 }
+

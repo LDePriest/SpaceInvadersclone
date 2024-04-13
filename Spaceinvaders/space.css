@@ -35,3 +35,7 @@ body{
     cursor: pointer;
 }
 
+.logo {
+    width: 150px; /* Set the width of the image */
+    height: auto; /* Maintain aspect ratio by auto-adjusting height */
+}
