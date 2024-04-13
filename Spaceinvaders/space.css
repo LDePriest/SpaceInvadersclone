@@ -8,11 +8,17 @@ body{
 body h1{
     color: white;
 }
+
+body h1{
+    color: white;
+}
 #board{
     background-color:black;
+    border: 2px solid white;
 }
 
 .gameOver{
+    border: 5px solid black;
     position: absolute;
     width: 400px;
     height: 400px;
@@ -41,3 +47,6 @@ body h1{
     cursor: pointer;
 }
 
+a{
+    text-decoration: none;
+}
