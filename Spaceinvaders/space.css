@@ -1,12 +1,20 @@
 body{
     font-family: 'Courier New', Courier, monospace;
+    background-image: url('trojan.JPG');
+    background-repeat: repeat;
     text-align: center;
+}
+
+body h1{
+    color: white;
 }
 #board{
     background-color:black;
+    border: 2px solid white;
 }
 
 .gameOver{
+    border: 5px solid black;
     position: absolute;
     width: 400px;
     height: 400px;
@@ -34,6 +42,12 @@ body{
     color: black;
     cursor: pointer;
 }
+
+a{
+    text-decoration: none;
+}
+
+
 .logo {
     width: 150px; /* Set the width of the image */
     height: auto; /* Maintain aspect ratio by auto-adjusting height */

@@ -31,6 +31,7 @@ let alienHeight = tileSize;
 let alienX = tileSize;
 let alienY = tileSize;
 let alienImg;
+let alienHealth;
 
 let alienRows = 2;
 let alienColumns = 3;
@@ -63,7 +64,7 @@ window.onload = function() {
 
     alienImg = new Image();
     alienImg.src = "./ogAlien.png";
-    createAliens();
+    createAliens(1);
 
     requestAnimationFrame(update);
     document.addEventListener("keydown", moveShip);
@@ -120,8 +121,14 @@ function update() {
         for (let j = 0; j < alienArray.length; j++) {
             let alien = alienArray[j];
             if (!bullet.used && alien.alive && detectCollision(bullet, alien)) {
+
                 bullet.used = true;
-                alien.alive = false;
+                alien.health = alien.health - 1;
+
+                if(alien.health <= 0){
+                    alien.alive = false;
+                }
+
                 let explosionSound = new Audio('explosion-6055.mp3');
                 explosionSound.play();
                 alienCount--;
@@ -149,7 +156,7 @@ function update() {
         }
         alienArray = [];
         bulletArray = [];
-        createAliens();
+        createAliens(1);
     }
 
     //score
@@ -171,7 +178,8 @@ function moveShip(e) {
     }
 }
 
-function createAliens() {
+function createAliens(healthCount) {
+    healthCount = parseInt(healthCount);
     for (let c = 0; c < alienColumns; c++) {
         for (let r = 0; r < alienRows; r++) {
             let alien = {
@@ -180,7 +188,8 @@ function createAliens() {
                 y : alienY + r*alienHeight,
                 width : alienWidth,
                 height : alienHeight,
-                alive : true
+                alive : true,
+                health: healthCount
             }
             alienArray.push(alien);
         }
@@ -215,6 +224,14 @@ function detectCollision(a, b) {
            a.y + a.height > b.y;    //a's bottom left corner passes b's top left corner
 }
 
+const replaceAt = function(str, index, replacement) {
+    return str.substring(0, index) + replacement + str.substring(index + replacement.length);
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
 function showGameOver(){
     let gameOverScreen = document.querySelector('.gameOver');
     let tryAgainBtn = document.querySelector('.tryAgain');
@@ -225,5 +242,22 @@ function showGameOver(){
             location.reload();
         }
     })
-    
+
+    tryAgainBtn.addEventListener('mouseover', async e =>{
+        e.target.textContent.toLowerCase();
+        let tryAgainStr = e.target.textContent;
+
+        for(let i = 0; i < tryAgainStr.length; i++){
+            let letter = tryAgainStr[i];
+            letter = letter.toUpperCase();
+            tryAgainStr = replaceAt(tryAgainStr, i, letter);
+            tryAgainBtn.textContent = tryAgainStr;
+            await sleep(200);
+        }
+    });
+
+    tryAgainBtn.addEventListener('mouseout', e =>{
+        e.target.textContent = e.target.textContent.toLowerCase();
+    });
 }
+
