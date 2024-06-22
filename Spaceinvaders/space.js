@@ -31,7 +31,6 @@ let alienHeight = tileSize;
 let alienX = tileSize;
 let alienY = tileSize;
 let alienImg;
-let alienHealth;
 
 let alienRows = 2;
 let alienColumns = 3;
@@ -43,6 +42,7 @@ let bulletArray = [];
 let bulletVelocityY = -10; //bullet moving speed
 
 let score = 0;
+let levelCount = 1;
 let gameOver = false;
 
 window.onload = function() {
@@ -62,11 +62,7 @@ window.onload = function() {
         context.drawImage(shipImg, ship.x, ship.y, ship.width, ship.height);
     }
 
-    alienImg = new Image();
-    alienImg.src = "./ogAlien.png";
     createAliens(1);
-    createAliens(1);
-
     requestAnimationFrame(update);
     document.addEventListener("keydown", moveShip);
     document.addEventListener("keyup", shoot);
@@ -100,7 +96,7 @@ function update() {
                     alienArray[j].y += alienHeight;
                 }
             }
-            context.drawImage(alienImg, alien.x, alien.y, alien.width, alien.height);
+            context.drawImage(alien.img, alien.x, alien.y, alien.width, alien.height);
 
             if (alien.y >= ship.y) {
                 let gameOverSound = new Audio('game-over-arcade-6435.mp3');
@@ -127,11 +123,11 @@ function update() {
                 alien.health = alien.health - 1;
                 if(alien.health <= 0){
                     alien.alive = false;
+                    alien.isBoss? score+= 1000 : score += 100; //Adds score depending on if the alien killed was a boss or not.
+                    let explosionSound = new Audio('explosion-6055.mp3');
+                    explosionSound.play();
+                    alienCount--;
                 }
-                let explosionSound = new Audio('explosion-6055.mp3');
-                explosionSound.play();
-                alienCount--;
-                score += 100;
             }
         }
     }
@@ -153,16 +149,23 @@ function update() {
         else {
             alienVelocityX -= 0.2; //increase the alien movement speed towards the left
         }
+
+        levelCount++;
         alienArray = [];
         bulletArray = [];
-        createAliens(1);
-        createAliens(1);
-    }
 
+        //Every 3 levels is a boss battle
+        if( levelCount % 3 == 0)
+            createBoss(50);
+        else
+            createAliens(1);
+    }
     //score
     context.fillStyle="white";
     context.font="16px courier";
     context.fillText(score, 5, 20);
+    context.fillText("Level ", 390,20 );
+    context.fillText(levelCount, 450,20 );
 }
 
 function moveShip(e) {
@@ -180,6 +183,8 @@ function moveShip(e) {
 
 function createAliens(healthCount) {
     healthCount = parseInt(healthCount);
+    alienImg = new Image();
+    alienImg.src = "./ogAlien.png";
     for (let c = 0; c < alienColumns; c++) {
         for (let r = 0; r < alienRows; r++) {
             let alien = {
@@ -190,8 +195,7 @@ function createAliens(healthCount) {
                 height : alienHeight,
                 alive : true,
                 health: healthCount,
-                alive : true,
-                health: healthCount
+                isBoss: false
             }
             alienArray.push(alien);
         }
@@ -199,6 +203,24 @@ function createAliens(healthCount) {
     alienCount = alienArray.length;
 }
 
+function createBoss(healthCount){
+    healthCount = parseInt(healthCount);
+    bossImg = new Image();
+    bossImg.src='./Redalien.png';
+    let boss = {
+        img : bossImg,
+        x : alienX,
+        y : alienY,
+        width : alienWidth*2,
+        height : alienHeight*2,
+        alive : true,
+        health: healthCount,
+        isBoss: true
+    }
+
+    alienArray.push(boss);
+    alienCount = alienArray.length;
+}
 function shoot(e) {
     if (gameOver) {
         return;
