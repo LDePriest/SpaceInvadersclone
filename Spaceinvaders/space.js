@@ -65,6 +65,7 @@ window.onload = function() {
     alienImg = new Image();
     alienImg.src = "./ogAlien.png";
     createAliens(1);
+    createAliens(1);
 
     requestAnimationFrame(update);
     document.addEventListener("keydown", moveShip);
@@ -124,11 +125,9 @@ function update() {
 
                 bullet.used = true;
                 alien.health = alien.health - 1;
-
                 if(alien.health <= 0){
                     alien.alive = false;
                 }
-
                 let explosionSound = new Audio('explosion-6055.mp3');
                 explosionSound.play();
                 alienCount--;
@@ -156,6 +155,7 @@ function update() {
         }
         alienArray = [];
         bulletArray = [];
+        createAliens(1);
         createAliens(1);
     }
 
@@ -188,6 +188,8 @@ function createAliens(healthCount) {
                 y : alienY + r*alienHeight,
                 width : alienWidth,
                 height : alienHeight,
+                alive : true,
+                health: healthCount,
                 alive : true,
                 health: healthCount
             }
@@ -260,4 +262,3 @@ function showGameOver(){
         e.target.textContent = e.target.textContent.toLowerCase();
     });
 }
-
