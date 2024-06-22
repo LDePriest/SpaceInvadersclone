@@ -10,15 +10,9 @@ body h1{
 }
 #board{
     background-color:black;
-    border: 2px solid white;
-    background-image: url('trojan.JPG');
-    background-size: contain; /* Adjust the size of the logo */
-    background-position: center; /* Position the logo in the center */
-    background-repeat: no-repeat;
 }
 
 .gameOver{
-    border: 5px solid black;
     position: absolute;
     width: 400px;
     height: 400px;
@@ -47,12 +41,3 @@ body h1{
     cursor: pointer;
 }
 
-a{
-    text-decoration: none;
-}
-
-
-.logo {
-    width: 150px; /* Set the width of the image */
-    height: auto; /* Maintain aspect ratio by auto-adjusting height */
-}
