@@ -57,7 +57,7 @@ window.onload = function() {
 
     //load images
     shipImg = new Image();
-    shipImg.src = "./ship.png";
+    shipImg.src = "./Ship.png";
     shipImg.onload = function() {
         context.drawImage(shipImg, ship.x, ship.y, ship.width, ship.height);
     }
